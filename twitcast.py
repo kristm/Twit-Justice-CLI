@@ -2,6 +2,7 @@
 
 import os,sys
 import time
+import re
 import twitter
 
 delay = 900
@@ -13,7 +14,7 @@ while True:
     try:
         status = api.GetUserTimeline('renanbarco')
         twit_user = status[0].user.name
-        twit = str(status[0].text.decode('utf-8')).replace('\'','')
+        twit = re.sub(r'(\'|\"|\@)','',status[0].text)
         if last_tweet != twit and len(twit) <= 140:		
             print " ".join([s for s in [twit_user,'says',twit]])
             os.system(" ".join([s for s in ['say -v Alex',twit_user,'says',twit]])) 
